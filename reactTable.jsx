@@ -23,7 +23,9 @@ class App extends Component {
   handleDelete = (index1) => {
       const newTodos = this.state.todos.filter((todo,i) => i !== index1) 
       this.setState({todos: newTodos})
-
+  }
+  deleteButton = () => {
+    return <button id= "btn" onClick = {this.handleDelete}>Delete</button>
   }
     render() {
         const columns = [{
@@ -38,7 +40,7 @@ class App extends Component {
                   <h2>Simple Todolist</h2>
                 </div>
                 <div>
-                  <form onSubmit={this.addTodo}>
+                  <form onSubmit={this.addTodo} >
                   Description:
         
                     <input type="text" name = "description" 
@@ -46,10 +48,12 @@ class App extends Component {
                     Date:
                     <input type="text" name = "date" 
                     onChange={this.inputChanged} value={this.state.date}/>
+                    
                     <input type="submit" value="Add"/>
+                   
                   </form>
                 </div>
-                <ReactTable data = {this.state.todos} columns = {columns} sortable='true' defaultPageSize='5'/>
+                <ReactTable data = {this.state.todos} columns = {columns} sortable= {true} defaultPageSize= {5}/>
             </div>
             );
     }
