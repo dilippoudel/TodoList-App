@@ -20,12 +20,11 @@ class App extends Component {
       todos: [...this.state.todos,newList]
     });
   }
-  handleDelete = (index1) => {
-      const newTodos = this.state.todos.filter((todo,i) => i !== index1) 
+  handleDelete = (index) => {
+      console.log(index) // this is written just to check the basic plumbing is working
+      const newTodos = this.state.todos.filter((todo,i) => i !== index) 
       this.setState({todos: newTodos})
-  }
-  deleteButton = () => {
-    return <button id= "btn" onClick = {this.handleDelete}>Delete</button>
+
   }
     render() {
         const columns = [{
@@ -34,13 +33,20 @@ class App extends Component {
            }, {
             Header: 'Description',
             accessor: 'description',
-           }]
+           }, {
+            id: 'button',
+            sortable: false,
+            filterable: false,
+            width: 100,
+            accessor: 'full_name',
+            Cell: ({index}) => (<button className="btn btn-danger sm" onClick= {() => {this.handleDelete(index)}}>Delete</button>)
+        }]
         return ( <div className="App">
                 <div className="App-header">
                   <h2>Simple Todolist</h2>
                 </div>
                 <div>
-                  <form onSubmit={this.addTodo} >
+                  <form onSubmit={this.addTodo}>
                   Description:
         
                     <input type="text" name = "description" 
@@ -48,12 +54,10 @@ class App extends Component {
                     Date:
                     <input type="text" name = "date" 
                     onChange={this.inputChanged} value={this.state.date}/>
-                    
                     <input type="submit" value="Add"/>
-                   
                   </form>
                 </div>
-                <ReactTable data = {this.state.todos} columns = {columns} sortable= {true} defaultPageSize= {5}/>
+                <ReactTable data = {this.state.todos} columns = {columns} sortable={true} defaultPageSize={5}/>
             </div>
             );
     }
